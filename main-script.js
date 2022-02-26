@@ -1,7 +1,6 @@
 const input = document.querySelector('input[data-input]')
 const list = document.querySelector('ul[data-list]')
 const addBtn = document.querySelector('button[data-add]')
-const removeBtn = document.querySelector('button[data-remove]')
 
 // Adding task
 let addTask = (e) => {
@@ -16,12 +15,13 @@ let addTask = (e) => {
         </span>`
 
         task.innerHTML = template
+        task.classList.add('animateTask')
         list.prepend(task)
         input.value = ''
         input.focus()
     } else {
-        input.style.animation = 'editAnimation .2s 3'
-        setTimeout(()=>{input.style.animation = ''}, 1000)
+        input.style.animation = 'wiggle 150ms 3'
+        setTimeout(()=>{input.style.animation = ''}, 500)
     }
 }
 addBtn.addEventListener('click', addTask)
@@ -31,43 +31,47 @@ input.addEventListener('keyup', (e) => e.key == 'Enter' ? addTask() : '' )
 list.addEventListener('click', (e) => {
 
     // to remove task
-    if(e.target.matches('button[data-remove]')) e.target.parentElement.parentElement.remove()
+    if(e.target.matches('button[data-remove]')){
+        let list = e.target.parentElement.parentElement
+        list.classList.add('remove')
+        setTimeout(()=>{list.remove()}, 700)
+    }
 
     // to edit task
     if(e.target.matches('button[data-edit]')){
         let task = e.target.parentElement.previousElementSibling
+        if(task.classList.contains('completed'))  return
         if(task.readOnly){     
-            let prevValue = task.value
+            let previousValue = task.value
             task.contentEditable = true
+            task.readOnly = false
             task.focus()
             task.value = ""
-            task.value = prevValue
-            task.readOnly = false
-            task.style.background = "#fff"
-            task.style.color = "#ff7756"
-            task.style.animation = "editAnimation .4s"
-            setTimeout(()=>{task.style.animation = ""}, 1000)
+            task.value = previousValue      
+            task.classList.add('editing')
+            task.nextElementSibling.children[0].classList.add('edit')
         } else {
+            task.nextElementSibling.children[0].classList.remove('edit')
+            task.classList.remove('editing')
             task.blur()
             task.readOnly = true
             task.contentEditable = false
-            task.style.color = "#777"
         }
 
+        // task listening to enter key
         task.addEventListener('keyup', (e)=>{
             if(e.key == 'Enter'){
                 if(!task.readOnly){
-                    task.style.color = "#777"
-                    task.style.fontWeight = '400'
-                    task.contentEditable = false
+                    task.nextElementSibling.children[0].classList.remove('edit')
+                    task.classList.remove('editing')
                     task.readOnly = 'true'
-                    task.blur()
                 }
             }
         })
     }
 })
 
+// to mark task as complete
 list.addEventListener('dblclick', (e)=>{
     let task = e.target
     if(task.matches('input[data-task]')){
