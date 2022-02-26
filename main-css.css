@@ -11,10 +11,14 @@
     align-items: center;
     height: 100vh;
     background: linear-gradient(110.01deg, #E1966B 20.4%, #E69F5D 46.66%, #FFDB4F 112.05%, rgba(230, 188, 92, 0) 112.06%);
+    /* background: rgb(93,93,235);
+background: linear-gradient(152deg, rgba(93,93,235,1) 3%, rgba(117,111,228,1) 28%, rgba(31,207,242,1) 82%, rgba(101,201,221,1) 94%);  */
 }
 
 #todo-container{
     width: 550px;
+    height: 700px;
+    /* overflow: auto; */
 }
 
 #todo-container h3{
@@ -27,60 +31,66 @@
     height: 70px;
     width: 550px;
     background: #fff;
-    overflow: hidden;
     border-radius: 4px;
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
+    background-color: #fff;
     box-shadow: 0px 4px 4px rgba(114, 114, 114, 0.25);
+    overflow: hidden;
 }
 input[data-input]{
+    letter-spacing: 0.05rem;
    display: inline-block;
    width: 100%;
    height: 100%;
-   padding: 1rem;
+   padding-left: 1rem;
+   border-radius: 2px;
    outline: 0;
    border: 0;
-   font-size: 1.1em;
+   font-size: 18px;
    color: #444;
 }
 button[data-add]{
     background: none;
     font-size: 2em;
-    font-weight: 400;
+    font-weight: 300;
     border: 0;
     outline: 0;
     cursor: pointer;
+    color: #666;
     padding-right: 1.2rem;
     height: 100%;
 }
 
 ul[data-list]{
-    /* background-color: #fff;
-    box-shadow: 0px 4px 4px rgba(114, 114, 114, 0.25);
-    border-radius: 4px; */
     list-style: none;
+    height: 500px;
+    overflow: auto;
+    scrollbar-width: none;  /* Firefox */
+}
+ul[data-list]::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 ul li{
+    position: relative;
     letter-spacing: 1px;
     height: 50px;
     border-radius: 2px;
     margin-bottom: .7rem;
-
-    overflow: hidden;
     color: #777;
     user-select: none;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     gap: .5rem;
 }
 
 input[data-task]{
     outline: 0;
     border: 0;
+    border-radius: 2px;
     color: #777;
     /* line-height: 50px; */
     height: 50px;
@@ -88,16 +98,27 @@ input[data-task]{
     background-color: #fff;
     padding-left: 1rem;
     cursor:pointer;
-    letter-spacing: 1px;
-    
-    transition: scale 300ms ease-out;
+    font-size: .9em;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    transition: all 300ms ease-out;
+    user-select: none;
+}
+
+input[data-task].completed{
+    opacity: 0.4;
+    text-decoration: line-through;
 }
 
 button[data-edit]{
     height: 50px;
     width: 50px;
-    /* margin-right: .5rem; */
+    margin-right: .5rem;
     background: #5cb7ec;
+    background-image: url(./images/edit.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
     outline: 0;
     border: 0;
     border-radius: 2px;
@@ -107,12 +128,40 @@ button[data-remove]{
     height: 50px;
     width: 50px;
     outline: 0;
+    background: #FF7756;
+    background-image: url(./images/trash.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
     border: 0;
     border-radius: 2px;
-    background: #FF7756;
     cursor: pointer;
 }
 
 button>img{
     width:20px;
+}
+
+
+@keyfram animateInputInput{
+    0%{
+        transform: translateX(0px);
+    }
+    50%{
+        transform: translateX(5px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
+}
+@keyframes editAnimation{
+    0%{
+        transform: translateX(0px);
+    }
+    50%{
+        transform: translateX(5px);
+    }
+    100%{
+        transform: translateX(0px);
+    }
 }
